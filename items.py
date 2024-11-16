@@ -17,6 +17,14 @@ files['/etc/apt/sources.list.d/pve-install-repo.list'] = {
     'mode': '0644',
 }
 
+if cfg.get('disable_subscription_note'):
+    files['/etc/apt/apt.conf.d/disable-subscription-note-pve'] = {
+        'source': 'etc/apt/apt.conf.d/disable-subscription-note-pve',
+        'owner': 'root',
+        'group': 'root',
+        'mode': '0644',
+    }
+
 actions['import_proxmox_gpg_key'] = {
     'command': f'wget https://enterprise.proxmox.com/debian/proxmox-release-{debian_release_name}.gpg '
                f'-O /etc/apt/trusted.gpg.d/proxmox-release-{debian_release_name}.gpg',
