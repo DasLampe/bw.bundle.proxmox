@@ -36,7 +36,7 @@ pkg_apt = {
     'linux-image-amd64': {
         'installed': False,
     },
-    f'linux-image-{cfg.get("installed_kernel")}-amd64': {
+    f'linux-image-{cfg.get("remove_kernel")}-amd64': {
         'installed': False,
     },
     'os-prober': {
