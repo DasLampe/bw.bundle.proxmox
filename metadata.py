@@ -35,5 +35,11 @@ defaults = {
             #    'iso_sha256': '1c2452019a76a7f1d0e958d03278a2ba306f51b5b2b8821b26b59d55120440a7',
             #}
         },
+        'lxc_images': [
+            #'debian-12-standard_12.7-1_amd64.tar.zst': {
+            #    'installed': True,
+            #    'storage': 'local',
+            #},
+        ],
     }
 }

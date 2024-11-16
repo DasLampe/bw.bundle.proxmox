@@ -79,7 +79,7 @@ for template_name, template_conf in cfg.get('template_vms', {}).items():
 
     actions[f'create_proxmox_template_{template_name}'] = {
         'command': f'qm create {template_conf.get("id", 9000)} --name {template_name};'
-                   f'qm set {template_conf.get("id", 9000)} --scsi0 {template_conf.get("storage_name", "local-lvm")}:0,'
+                   f'qm set {template_conf.get("id", 9000)} --scsi0 {template_conf.get("storage_name", "local")}:0,'
                    f'import-from=/tmp/{basename(template_conf.get("iso_url"))};'
                    f'qm template {template_conf.get("id", 9000)}',
         'needs': [
@@ -89,3 +89,20 @@ for template_name, template_conf in cfg.get('template_vms', {}).items():
                   f'cut -d ":" -f2 | tr -d " " | grep -w -q {template_conf.get("id", 9000)}',
     }
 
+# LXC Templates
+actions[f'update_lxc_image_list'] = {
+    'command': 'pveam update',
+}
+for image,image_conf in cfg.get('lxc_images', []).items():
+    if image_conf.get('installed', True):
+        actions[f'download_lxc_image_{image}'] = {
+            'command': f'pveam download {image_conf.get('storage', 'local')} {image}',
+            'needs': [
+                'action:update_lxc_image_list',
+            ],
+            #@TODO: Find a way for unless
+        }
+    else:
+        actions[f'remove_lxc_image_{image}'] = {
+            'commanmd': f'pveam remove {image_conf.get('storage', 'local')}:{image}'
+        }
