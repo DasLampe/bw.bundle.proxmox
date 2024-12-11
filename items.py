@@ -93,7 +93,7 @@ for template_name, template_conf in cfg.get('template_vms', {}).items():
 actions[f'update_lxc_image_list'] = {
     'command': 'pveam update',
 }
-for image,image_conf in cfg.get('lxc_images', []).items():
+for image,image_conf in cfg.get('lxc_images', {}).items():
     if image_conf.get('installed', True):
         actions[f'download_lxc_image_{image}'] = {
             'command': f'pveam download {image_conf.get('storage', 'local')} {image}',
